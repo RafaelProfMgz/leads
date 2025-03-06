@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "typeRoots": ["./node_modules/@types", "./types"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/types/**/*.d.ts" // Adicione esta linha se a pasta de tipos estiver em src/types
+  ],
+  "exclude": ["node_modules"]
+}

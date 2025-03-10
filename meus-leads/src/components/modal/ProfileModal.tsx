@@ -7,7 +7,10 @@ interface ProfileModalProps {
 }
 
 const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen }) => {
-  const userName = localStorage.getItem("userName") || "Usuário Anônimo";
+  // Obtendo os dados do usuário corretamente
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const userName = user.name || "Usuário Anônimo";
+
   const logout = useLogout(); // Pega a função de logout
 
   if (!isOpen) return null;

@@ -26,21 +26,17 @@ export default function Login() {
     }
 
     try {
-      const response = await api.post("/auth/login", {
-        email,
-        password,
-      });
+      const response = await api.post("/auth/login", { email, password });
 
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user)); // Salva o usuário no localStorage
 
-        // Exibe o toast e limpa o erro
         setError("");
         setShowToast(true);
 
-        // Redireciona após 1 segundo
         setTimeout(() => {
-          setShowToast(false); // Remove o toast após redirecionamento
+          setShowToast(false);
           navigate("/dashboard");
         }, 1000);
       }

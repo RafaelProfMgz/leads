@@ -5,7 +5,7 @@ export const useLogout = () => {
 
   const logout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("userName");
+    localStorage.removeItem("user");
 
     navigate("/"); 
   };

@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
 import Lead from "../models/Lead";
 import asyncHandler from "../utils/asyncHandler";
-
-// Extend the Request interface locally
 declare module "express" {
   interface Request {
     user?: {
@@ -89,9 +87,9 @@ const deleteLead = asyncHandler(async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Lead não encontrado" });
     }
 
-    res.status(204).send(); // Sucesso, mas sem conteúdo
+    res.status(204).send();
   } catch (error) {
-    console.error("Erro ao deletar o lead:", error); // Log do erro para depuração
+    console.error("Erro ao deletar o lead:", error); 
     res.status(500).json({ message: "Erro desconhecido ao deletar o lead" });
   }
 });
@@ -109,9 +107,9 @@ const getLeads = asyncHandler(async (req: Request, res: Response) => {
     if (leads.length === 0) {
       return res.status(404).json({ message: "Nenhum lead encontrado" });
     }
-    res.status(200).json(leads); // Retorna os leads encontrados
+    res.status(200).json(leads);
   } catch (error) {
-    console.error("Erro ao carregar os leads:", error); // Log do erro para depuração
+    console.error("Erro ao carregar os leads:", error);
     res.status(500).json({ message: "Erro desconhecido ao carregar os leads" });
   }
 });

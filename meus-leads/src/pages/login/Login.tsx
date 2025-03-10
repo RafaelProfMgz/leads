@@ -15,7 +15,7 @@ export default function Login() {
     if (token) {
       navigate("/dashboard");
     }
-  }, [navigate]); // Empty dependency array ensures this effect runs only once on mount
+  }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

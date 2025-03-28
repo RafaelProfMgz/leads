@@ -1,5 +1,5 @@
 import React from "react";
-import { Lead } from "../Dashboard";
+import { Lead } from "../../../types/Leads";
 import { AiOutlineClose } from "react-icons/ai";
 
 interface RemoveLeadModalProps {
@@ -33,9 +33,7 @@ const RemoveLeadModal: React.FC<RemoveLeadModalProps> = ({
         <h3 className="text-xl font-semibold mb-4">Remover Lead</h3>
         <p>
           Tem certeza que deseja remover o lead:
-          <strong>
-            {lead.name} id:{lead.id}
-          </strong>
+          <strong>{lead.name}</strong>
         </p>
         <div className="mt-4 flex justify-end space-x-4">
           <button

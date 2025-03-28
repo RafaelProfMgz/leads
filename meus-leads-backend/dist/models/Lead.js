@@ -33,14 +33,15 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-var mongoose_1 = __importStar(require("mongoose"));
+const mongoose_1 = __importStar(require("mongoose"));
 // Schema do Lead
-var LeadSchema = new mongoose_1.Schema({
+const LeadSchema = new mongoose_1.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
     phone: { type: String },
+    message: { type: String, required: false },
     userId: { type: mongoose_1.Schema.Types.ObjectId, ref: "User", required: true },
 });
 // Modelo de Lead com a tipagem de ILead
-var Lead = mongoose_1.default.model("Lead", LeadSchema);
+const Lead = mongoose_1.default.model("Lead", LeadSchema);
 exports.default = Lead;

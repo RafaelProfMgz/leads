@@ -3,8 +3,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var app_1 = __importDefault(require("./app"));
-var PORT = process.env.PORT || 5000;
-app_1.default.listen(PORT, function () {
-    console.log("Servidor rodando na porta ".concat(PORT));
+const app_1 = __importDefault(require("./app"));
+const database_1 = __importDefault(require("./config/database"));
+const PORT = process.env.PORT;
+(0, database_1.default)()
+    .then(() => {
+    app_1.default.listen(PORT, () => {
+        console.log(`Servidor rodando na porta ${PORT}`);
+    });
+})
+    .catch((err) => {
+    console.error("Erro ao conectar ao banco:", err);
 });

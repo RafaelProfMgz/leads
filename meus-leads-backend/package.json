@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node dist/server.ts",
     "build": "tsc",
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "postinstall": "chmod +x ./node_modules/.bin/tsc"
   },
   "keywords": [],
   "author": "",

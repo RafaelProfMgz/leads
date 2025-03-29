@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import { Rocket } from "lucide-react"; // Importe o ícone do foguete
 
@@ -22,21 +23,10 @@ export default function HeroSection() {
           você gera leads, automatiza seu marketing e conquista novos clientes.
         </p>
         <div className="flex justify-center space-x-4">
-          <Button variant="default" size="lg">
-            Começar Agora <Rocket className="ml-2 h-5 w-5" />
-          </Button>
           <Button variant="outline" size="lg">
-            Saiba Mais
+            <Rocket />
+            <Link to="/"> Saiba Mais</Link>
           </Button>
-        </div>
-
-        {/* Hero Image (Mockup) */}
-        <div className="mt-12">
-          <img
-            src="/hero-mockup.png"
-            alt="Mockup da Plataforma"
-            className="mx-auto max-w-lg rounded-xl shadow-2xl"
-          />
         </div>
       </div>
     </section>

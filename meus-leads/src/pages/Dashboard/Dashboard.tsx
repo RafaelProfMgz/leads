@@ -6,8 +6,8 @@ import EditLeadModal from "./leads/EditLeadModal";
 import RemoveLeadModal from "./leads/RemoveLeadModal";
 import api from "../../services/api";
 import { Lead } from "../../types/Leads";
-import LeadList from "../../components/Lead/LeadList";
-import CreateLeadButton from "../../components/Lead/Button/CreateLeadButton";
+import LeadList from "../../components/lead/LeadList";
+import CreateLeadButton from "../../components/lead/button/CreateLeadButton";
 
 export default function Dashboard() {
   const navigate = useNavigate();

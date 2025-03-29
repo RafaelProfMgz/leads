@@ -97,35 +97,6 @@ export default function Dashboard() {
     setRemoveLeadModalOpen(true);
   };
 
-  const removeLead = async () => {
-    const token = localStorage.getItem("token");
-    if (!token || !selectedLeadToRemove) return;
-
-    try {
-      await api.delete(`/leads/${selectedLeadToRemove._id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setLeads((prevLeads) =>
-        prevLeads.filter((lead) => lead._id !== selectedLeadToRemove._id),
-      );
-      setRemoveLeadModalOpen(false);
-    } catch (err: unknown) {
-      if (err instanceof AxiosError) {
-        const errorMessage =
-          err.response?.data?.message || "Erro ao carregar leads.";
-        setError(errorMessage);
-      } else {
-        setError("Erro desconhecido. Tente novamente.");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const closeRemoveLeadModal = () => {
     setRemoveLeadModalOpen(false);
   };
@@ -172,8 +143,8 @@ export default function Dashboard() {
         <RemoveLeadModal
           isOpen={isRemoveLeadModalOpen}
           onClose={closeRemoveLeadModal}
-          onRemove={removeLead}
           lead={selectedLeadToRemove}
+          fetchLeads={fetchLeads}
         />
       )}
     </div>

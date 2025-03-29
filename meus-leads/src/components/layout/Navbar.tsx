@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { FaUserCircle } from "react-icons/fa"; 
-import ProfileModal from "../modal/ProfileModal"; 
+import { FaUserCircle } from "react-icons/fa";
+import ProfileModal from "../modal/ProfileModal";
 
 const Navbar: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,12 +20,7 @@ const Navbar: React.FC = () => {
             <FaUserCircle size={40} />
           </button>
 
-          <ProfileModal
-            isOpen={isModalOpen}
-            onClose={function (): void {
-              throw new Error("Function not implemented.");
-            }}
-          />
+          <ProfileModal isOpen={isModalOpen} />
         </li>
       </ul>
     </nav>

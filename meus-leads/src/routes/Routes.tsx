@@ -13,7 +13,7 @@ import Loading from "../components/Loading";
 const Login = lazy(() => import("../pages/login/Login"));
 const Register = lazy(() => import("../pages/register/Register"));
 const HeroPage = lazy(() => import("../pages/hero/HeroPage"));
-const Dashboard = lazy(() => import("../pages/Dashboard/Dashboard"));
+const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
 const Leads = lazy(() => import("../pages/leads/Leads"));
 const Settings = lazy(() => import("../pages/settings/Settings"));
 const Documentation = lazy(

@@ -4,7 +4,7 @@
   "main": "dist/server.js",
   "scripts": {
     "start": "node dist/server.js",
-    "build": "tsc",
+    "build": "rm -rf dist && tsc && cp index.html dist/",
     "dev": "nodemon src/server.ts",
     "postinstall": "chmod +x ./node_modules/.bin/tsc"
   },

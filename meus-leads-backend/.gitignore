@@ -1,0 +1,43 @@
+# Arquivo .gitignore básico para Node.js / TypeScript / Express
+
+# Dependências
+# A pasta node_modules contém todas as dependências instaladas e não deve ser versionada.
+# Ela é reconstruída usando 'npm install' ou 'yarn install'.
+node_modules/
+
+# Arquivos de Build/Compilação
+# A pasta 'dist' contém o código JavaScript compilado a partir do TypeScript.
+# Ela é gerada pelo comando 'npm run build'.
+dist/
+
+# Arquivos de Variáveis de Ambiente
+# O arquivo .env contém segredos (como chaves de API, senhas de banco de dados, JWT secrets).
+# NUNCA adicione este arquivo ao Git.
+# É comum ter um arquivo .env.example versionado para mostrar quais variáveis são necessárias.
+.env
+.env.*.local
+.env.local
+
+# Arquivos de Log
+# Arquivos de log gerados durante a execução ou depuração.
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos gerados pelo Sistema Operacional
+.DS_Store
+Thumbs.db
+
+# Pastas de Configuração de Editores/IDEs
+# Configurações específicas do usuário para editores como VS Code ou WebStorm.
+.vscode/
+.idea/
+
+# Arquivos de Cache ou Temporários da Vercel (Opcional, mas recomendado)
+# A CLI da Vercel pode criar esta pasta para configurações locais.
+.vercel/
+
+# Relatórios de Cobertura de Testes (Opcional - adicione se usar testes)
+# coverage/
+# .nyc_output/

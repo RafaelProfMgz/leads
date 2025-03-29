@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
-import CreateLeadModal from "./leads/CreateLeadModal";
-import EditLeadModal from "./leads/EditLeadModal";
-import RemoveLeadModal from "./leads/RemoveLeadModal";
+import CreateLeadModal from "@/components/lead/leadsCrud/CreateLeadModal";
+import EditLeadModal from "@/components/lead/leadsCrud/EditLeadModal";
+import RemoveLeadModal from "@/components/lead/leadsCrud/RemoveLeadModal";
 import api from "../../services/api";
 import { Lead } from "../../types/Leads";
-import LeadList from "../../components/Lead/LeadList";
-import CreateLeadButton from "../../components/Lead/Button/CreateLeadButton";
+import LeadList from "../../components/lead/LeadList";
+import CreateLeadButton from "../../components/lead/button/CreateLeadButton";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -97,35 +97,6 @@ export default function Dashboard() {
     setRemoveLeadModalOpen(true);
   };
 
-  const removeLead = async () => {
-    const token = localStorage.getItem("token");
-    if (!token || !selectedLeadToRemove) return;
-
-    try {
-      await api.delete(`/leads/${selectedLeadToRemove._id}`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setLeads((prevLeads) =>
-        prevLeads.filter((lead) => lead._id !== selectedLeadToRemove._id),
-      );
-      setRemoveLeadModalOpen(false);
-    } catch (err: unknown) {
-      if (err instanceof AxiosError) {
-        const errorMessage =
-          err.response?.data?.message || "Erro ao carregar leads.";
-        setError(errorMessage);
-      } else {
-        setError("Erro desconhecido. Tente novamente.");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const closeRemoveLeadModal = () => {
     setRemoveLeadModalOpen(false);
   };
@@ -172,8 +143,8 @@ export default function Dashboard() {
         <RemoveLeadModal
           isOpen={isRemoveLeadModalOpen}
           onClose={closeRemoveLeadModal}
-          onRemove={removeLead}
           lead={selectedLeadToRemove}
+          fetchLeads={fetchLeads}
         />
       )}
     </div>

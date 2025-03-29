@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Lead } from "../../../types/Leads";
 import { AiOutlineClose } from "react-icons/ai";
 
@@ -15,14 +15,17 @@ const RemoveLeadModal: React.FC<RemoveLeadModalProps> = ({
   onRemove,
   lead,
 }) => {
-  if (!lead) return null;
+  const handleRemoveClick = useCallback(async () => {
+    if (onRemove) {
+      await onRemove();
+      onClose();
+    }
+  }, [onRemove, onClose]);
+
+  if (!isOpen || !lead) return null;
 
   return (
-    <div
-      className={`fixed inset-0  bg-opacity-75 flex justify-center items-center ${
-        !isOpen && "hidden"
-      }`}
-    >
+    <div className="fixed inset-0 bg-opacity-75 flex justify-center items-center">
       <div className="bg-white p-6 rounded-lg shadow-md w-96 relative">
         <button
           onClick={onClose}
@@ -43,7 +46,7 @@ const RemoveLeadModal: React.FC<RemoveLeadModalProps> = ({
             Cancelar
           </button>
           <button
-            onClick={onRemove}
+            onClick={handleRemoveClick}
             className="bg-red-500 text-white py-2 px-4 rounded-lg"
           >
             Remover

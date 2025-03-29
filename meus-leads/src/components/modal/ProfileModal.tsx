@@ -1,15 +1,24 @@
-import React, { useState } from "react"; // Importe useState
+import React, { useState } from "react";
 import { useLogout } from "../../utils/logout";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface ProfileModalProps {
   isOpen: boolean;
+  onClose: () => void;
 }
 
-const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen }) => {
+export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const userName = user.name || "Usuário Anônimo";
   const userEmail = user.email || "email@exemplo.com";
-  const userPhoto = user.photoURL || "URL_PARA_FOTO_PADRAO";
+  const userPhoto = user.photoURL || "";
   const logout = useLogout();
   const [theme, setTheme] = useState("light");
 
@@ -17,51 +26,44 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ isOpen }) => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div
-      id="profile-modal"
-      className={`absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 shadow-lg rounded-lg py-2 ${theme === "dark" ? "text-white" : "text-gray-700"}`} // Adicionando tema
-      onClick={(e) => e.stopPropagation()}
-    >
-      <div className="flex items-center justify-center py-3">
-        <img
-          src={userPhoto}
-          alt="Foto de Perfil"
-          className="rounded-full h-16 w-16 object-cover"
-        />
-      </div>
-      <div className="px-4 py-2">
-        <p className="font-semibold">{userName}</p>
-        <p className="text-sm text-gray-500 dark:text-gray-400">{userEmail}</p>
-      </div>
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Detalhes do Perfil</DialogTitle>
+        </DialogHeader>
 
-      <hr className="border-gray-200 dark:border-gray-700 my-2" />
+        <div className="flex flex-col space-y-4">
+          <div className="flex items-center space-x-4">
+            <Avatar className="h-12 w-12">
+              <AvatarImage src={userPhoto} alt={userName} />
+              <AvatarFallback>{userName.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div>
+              <p className="font-semibold">{userName}</p>
+              <p className="text-sm text-muted-foreground">{userEmail}</p>
+            </div>
+          </div>
 
-      <button
-        className="w-full text-left px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
-        onClick={() => {
-          alert("Redirecionar para a página de edição de perfil");
-        }}
-      >
-        Editar Perfil
-      </button>
-      <button
-        className="w-full text-left px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
-        onClick={toggleTheme}
-      >
-        Mudar Tema para {theme === "light" ? "Escuro" : "Claro"}
-      </button>
+          <Button
+            variant="outline"
+            onClick={() =>
+              alert("Redirecionar para a página de edição de perfil")
+            }
+          >
+            Editar Perfil
+          </Button>
+          <Button variant="outline" onClick={toggleTheme}>
+            Mudar Tema para {theme === "light" ? "Escuro" : "Claro"}
+          </Button>
+        </div>
 
-      <button
-        onClick={logout}
-        className="w-full text-left px-4 py-2 text-red-600 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg"
-      >
-        Deslogar
-      </button>
-    </div>
+        <div className="mt-6">
+          <Button variant="destructive" onClick={logout} className="w-full">
+            Deslogar
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
   );
-};
-
-export default ProfileModal;
+}

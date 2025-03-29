@@ -2,12 +2,25 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import { AxiosError } from "axios";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const [showToast, setShowToast] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,80 +39,90 @@ export default function Login() {
     }
 
     try {
+      setIsSubmitting(true);
       const response = await api.post("/auth/login", { email, password });
 
       if (response.status === 200) {
         localStorage.setItem("token", response.data.token);
-        localStorage.setItem("user", JSON.stringify(response.data.user)); // Salva o usuário no localStorage
+        localStorage.setItem("user", JSON.stringify(response.data.user));
 
         setError("");
-        setShowToast(true);
+        toast.success("Login realizado com sucesso!");
 
         setTimeout(() => {
-          setShowToast(false);
-          navigate("/dashboard");
-        }, 1000);
+          navigate("/heropage");
+        }, 1500);
       }
     } catch (err: unknown) {
+      let errorMessage = "Ocorreu um erro. Tente novamente.";
       if (err instanceof AxiosError) {
-        if (err.response?.status === 400) {
-          setError("Credenciais inválidas. Tente novamente.");
-        } else if (err.response?.status === 500) {
-          setError("Erro no servidor. Tente novamente.");
-        } else {
-          setError("Ocorreu um erro. Tente novamente.");
+        switch (err.response?.status) {
+          case 400:
+            errorMessage = "Credenciais inválidas. Tente novamente.";
+            break;
+          case 500:
+            errorMessage = "Erro no servidor. Tente novamente.";
+            break;
         }
       } else {
-        setError("Erro desconhecido.");
+        errorMessage = "Erro desconhecido.";
       }
+
+      setError(errorMessage);
+      toast.error("Erro ao realizar o login.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-green-100">
-      <form
-        onSubmit={handleLogin}
-        className="bg-white p-6 rounded-lg shadow-md w-96"
-      >
-        <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
-        {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full p-2 mb-4 border rounded"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Senha"
-          className="w-full p-2 mb-4 border rounded"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-        >
-          Entrar
-        </button>
-        <p className="text-center text-sm mt-4">
-          Não tem uma conta?{" "}
-          <span
-            className="text-blue-500 cursor-pointer"
-            onClick={() => navigate("/register")}
-          >
-            Registre-se
-          </span>
-        </p>
-      </form>
-
-      {/* Toast de Sucesso */}
-      {showToast && (
-        <div className="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg">
-          <p>Login realizado com sucesso!</p>
-        </div>
-      )}
+      <Card className="w-[350px]">
+        <CardHeader>
+          <CardTitle>Login</CardTitle>
+          <CardDescription>Entre com suas credenciais</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleLogin} className="space-y-4">
+            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                placeholder="seuemail@exemplo.com"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Senha</Label>
+              <Input
+                id="password"
+                placeholder="********"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+            <Button disabled={isSubmitting} type="submit" className="w-full">
+              Entrar
+            </Button>
+          </form>
+        </CardContent>
+        <CardFooter className="flex justify-center">
+          <p className="text-sm text-muted-foreground">
+            Não tem uma conta?{" "}
+            <Button
+              variant="link"
+              onClick={() => navigate("/register")}
+              className="p-0 font-normal"
+            >
+              Registre-se
+            </Button>
+          </p>
+        </CardFooter>
+      </Card>
     </div>
   );
 }

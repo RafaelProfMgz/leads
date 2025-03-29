@@ -1,27 +1,21 @@
-// LoadingModal.tsx
-import React from "react";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { Spinner } from "../ui/spinner";
 
 interface LoadingModalProps {
   isOpen: boolean;
   message?: string;
 }
 
-const LoadingModal: React.FC<LoadingModalProps> = ({
+export default function LoadingModal({
   isOpen,
   message = "Carregando...",
-}) => {
-  if (!isOpen) return null;
-
+}: LoadingModalProps) {
   return (
-    <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-md">
-        <div className="flex items-center space-x-3">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-700"></div>
-          <p className="text-lg font-semibold">{message}</p>
-        </div>
-      </div>
-    </div>
+    <Dialog open={isOpen}>
+      <DialogContent className="sm:max-w-[425px] flex items-center justify-center space-x-4">
+        <Spinner className="h-8 w-8" />
+        <DialogTitle>{message}</DialogTitle>
+      </DialogContent>
+    </Dialog>
   );
-};
-
-export default LoadingModal;
+}

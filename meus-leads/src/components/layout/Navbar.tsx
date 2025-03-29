@@ -95,7 +95,6 @@ const Navbar: React.FC = () => {
               <DropdownMenuItem onClick={openProfileModal}>
                 Perfil
               </DropdownMenuItem>
-              <DropdownMenuItem>Configurações</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem>Sair</DropdownMenuItem>
             </DropdownMenuContent>

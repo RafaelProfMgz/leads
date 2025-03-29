@@ -20,6 +20,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { Link } from "react-router-dom";
+import LogoSite from "../LogoSite";
 
 const Navbar: React.FC = () => {
   const [isModalOpen, setProfileModalOpen] = useState(false);
@@ -74,6 +75,11 @@ const Navbar: React.FC = () => {
           </NavigationMenuList>
         </NavigationMenu>
       </div>
+
+      <div className="flex-grow flex justify-center">
+        <LogoSite />
+      </div>
+
       <ul className="flex justify-end items-center">
         <li>
           <DropdownMenu>

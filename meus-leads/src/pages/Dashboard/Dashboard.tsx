@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
-import CreateLeadModal from "./leads/CreateLeadModal";
-import EditLeadModal from "./leads/EditLeadModal";
-import RemoveLeadModal from "./leads/RemoveLeadModal";
+import CreateLeadModal from "@/components/lead/leadsCrud/CreateLeadModal";
+import EditLeadModal from "@/components/lead/leadsCrud/EditLeadModal";
+import RemoveLeadModal from "@/components/lead/leadsCrud/RemoveLeadModal";
 import api from "../../services/api";
 import { Lead } from "../../types/Leads";
 import LeadList from "../../components/lead/LeadList";

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Home,
   Settings,
@@ -5,6 +6,7 @@ import {
   BarChart,
   FileText,
   MessageSquare,
+  LayoutDashboard as LucideLayoutDashboard,
 } from "lucide-react";
 import {
   Sidebar,
@@ -16,13 +18,29 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Badge } from "@/components/ui/badge";
+import MessageModal from "../modal/MessageModal";
+
+interface MenuItem {
+  title: string;
+  url?: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  badge: string | null;
+  isMessage?: boolean;
+  onClick?: () => void;
+}
 
 // Menu items.
-const items = [
+const items: MenuItem[] = [
+  {
+    title: "Home",
+    url: "/heroPage",
+    icon: Home,
+    badge: null,
+  },
   {
     title: "Dashboard",
     url: "/dashboard",
-    icon: Home,
+    icon: LucideLayoutDashboard,
     badge: null,
   },
   {
@@ -33,7 +51,7 @@ const items = [
   },
   {
     title: "Relatórios",
-    url: "/reports",
+    url: "/report",
     icon: BarChart,
     badge: null,
   },
@@ -45,9 +63,9 @@ const items = [
   },
   {
     title: "Mensagens",
-    url: "/messages",
     icon: MessageSquare,
-    badge: "3",
+    badge: null,
+    isMessage: true,
   },
   {
     title: "Configurações",
@@ -58,6 +76,12 @@ const items = [
 ];
 
 export function AppSidebar() {
+  const [isMessageModalOpen, setMessageModalOpen] = useState(false);
+
+  const handleMessagesClick = () => {
+    setMessageModalOpen(true);
+  };
+
   return (
     <Sidebar>
       <SidebarContent className="py-4">
@@ -67,24 +91,45 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a
-                      href={item.url}
-                      className="flex items-center space-x-2 py-2 px-4 rounded-md hover:bg-gray-100"
-                    >
-                      <item.icon className="h-4 w-4" />{" "}
-                      <span>{item.title}</span>
-                      {item.badge && (
-                        <Badge variant="secondary" className="ml-auto">
-                          {item.badge}
-                        </Badge>
-                      )}
-                    </a>
+                    {item.isMessage ? (
+                      <button
+                        className="flex items-center space-x-2 py-2 px-4 rounded-md hover:bg-gray-100 w-full"
+                        onClick={handleMessagesClick}
+                      >
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.title}</span>
+                        {item.badge && (
+                          <Badge variant="secondary" className="ml-auto">
+                            {item.badge}
+                          </Badge>
+                        )}
+                      </button>
+                    ) : (
+                      <a
+                        href={item.url}
+                        className="flex items-center space-x-2 py-2 px-4 rounded-md hover:bg-gray-100"
+                      >
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.title}</span>
+                        {item.badge && (
+                          <Badge variant="secondary" className="ml-auto">
+                            {item.badge}
+                          </Badge>
+                        )}
+                      </a>
+                    )}
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        <MessageModal
+          isOpen={isMessageModalOpen}
+          onClose={() => setMessageModalOpen(false)}
+          title="Mensagens"
+          message="Esta é a página de mensagens."
+        />
       </SidebarContent>
     </Sidebar>
   );

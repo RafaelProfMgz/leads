@@ -23,7 +23,7 @@ export function LoginForm({
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      navigate("/dashboard");
+      navigate("/home");
     }
   }, [navigate]);
 

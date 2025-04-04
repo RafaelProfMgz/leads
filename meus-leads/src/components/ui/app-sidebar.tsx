@@ -46,7 +46,7 @@ interface MenuItem {
 const items: MenuItem[] = [
   {
     title: "Home",
-    url: "/heroPage",
+    url: "/home",
     icon: Home,
     badge: null,
   },

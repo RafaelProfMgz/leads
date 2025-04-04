@@ -1,9 +1,9 @@
 const Footer: React.FC = () => {
   return (
-    <footer className="bg-gray-800 text-white text-center p-4 mt-auto">
+    <footer className=" text-center p-4 mt-auto">
       <p>
-        &copy; 2025 Meus leads Angel Rafael Souza da Silva - Todos os direitos
-        reservados
+        &copy; 2025 <span className="text-blue-600 font-bold">LEADVITRUS</span>{" "}
+        - Todos os direitos reservados
       </p>
     </footer>
   );

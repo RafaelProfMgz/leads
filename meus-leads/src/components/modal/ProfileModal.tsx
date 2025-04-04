@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useLogout } from "../../utils/logout";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -20,11 +19,6 @@ export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
   const userEmail = user.email || "email@exemplo.com";
   const userPhoto = user.photoURL || "";
   const logout = useLogout();
-  const [theme, setTheme] = useState("light");
-
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -52,9 +46,6 @@ export default function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
             }
           >
             Editar Perfil
-          </Button>
-          <Button variant="outline" onClick={toggleTheme}>
-            Mudar Tema para {theme === "light" ? "Escuro" : "Claro"}
           </Button>
         </div>
 

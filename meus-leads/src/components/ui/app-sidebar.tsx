@@ -7,7 +7,18 @@ import {
   FileText,
   MessageSquare,
   LayoutDashboard as LucideLayoutDashboard,
+  CircleUser,
+  MoreVertical,
 } from "lucide-react";
+import ProfileModal from "../modal/ProfileModal";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -19,7 +30,9 @@ import {
 } from "@/components/ui/sidebar";
 import { Badge } from "@/components/ui/badge";
 import MessageModal from "../modal/MessageModal";
+import { ModeToggle } from "./toggle";
 
+// Types
 interface MenuItem {
   title: string;
   url?: string;
@@ -29,7 +42,7 @@ interface MenuItem {
   onClick?: () => void;
 }
 
-// Menu items.
+// Constants
 const items: MenuItem[] = [
   {
     title: "Home",
@@ -76,10 +89,23 @@ const items: MenuItem[] = [
 ];
 
 export function AppSidebar() {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
   const [isMessageModalOpen, setMessageModalOpen] = useState(false);
+  const [isModalOpen, setProfileModalOpen] = useState(false);
+
+  const userName = user.name || "Usuário Anônimo";
+  const userEmail = user.email || "email@exemplo.com";
 
   const handleMessagesClick = () => {
     setMessageModalOpen(true);
+  };
+
+  const openProfileModal = () => {
+    setProfileModalOpen(true);
+  };
+
+  const closeProfileModal = () => {
+    setProfileModalOpen(false);
   };
 
   return (
@@ -87,6 +113,13 @@ export function AppSidebar() {
       <SidebarContent className="py-4">
         <SidebarGroup>
           <SidebarGroupContent>
+            <SidebarGroup>
+              <SidebarGroupContent>
+                <SidebarMenu className="flex justify-end">
+                  <ModeToggle />
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
@@ -124,12 +157,61 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        <SidebarGroup className="mt-auto">
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <div className="flex items-center space-x-2 hover:border p-2 rounded-md">
+                        <CircleUser className="h-8 w-8" />
+                        <div className="flex flex-col">
+                          <span className="text-sm font-medium">
+                            {userName}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            {userEmail}
+                          </span>
+                        </div>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                          <MoreVertical className="h-4 w-4" />
+                          <span className="sr-only">Abrir menu do usuário</span>
+                        </Button>
+                      </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent
+                      className="w-56"
+                      align="end"
+                      forceMount
+                    >
+                      <DropdownMenuItem
+                        onClick={openProfileModal}
+                        className="text-foreground"
+                      >
+                        Perfil
+                      </DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem className="text-foreground">
+                        Sair
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
         <MessageModal
           isOpen={isMessageModalOpen}
           onClose={() => setMessageModalOpen(false)}
           title="Mensagens"
           message="Esta é a página de mensagens."
         />
+
+        <ProfileModal isOpen={isModalOpen} onClose={closeProfileModal} />
       </SidebarContent>
     </Sidebar>
   );

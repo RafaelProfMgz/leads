@@ -21,7 +21,7 @@ export default function HeroSection() {
       repeat: Infinity,
       repeatType: "mirror",
     });
-  }, []);
+  }, [color]);
 
   const backgroundImage = useMotionTemplate`radial-gradient(125% 125% at 50% 0%, #020617 50%, ${color})`;
   const border = useMotionTemplate`1px solid ${color}`;
@@ -47,7 +47,8 @@ export default function HeroSection() {
           revolucionar a forma como você gera leads, automatiza seu marketing e
           conquista novos clientes.
         </p>
-        <motion.button
+        <motion.a // Changed from motion.button to motion.a
+          href="/login" // Added href attribute
           style={{
             border,
             boxShadow,
@@ -62,7 +63,7 @@ export default function HeroSection() {
         >
           Iniciar teste grátis
           <FiArrowRight className="transition-transform group-hover:-rotate-45 group-active:-rotate-12" />
-        </motion.button>
+        </motion.a>
       </div>
 
       <div className="absolute inset-0 z-0">

@@ -10,6 +10,7 @@ import { lazy, Suspense } from "react";
 import Layout from "../components/layout/Layout";
 import Loading from "../components/Loading";
 
+const Home = lazy(() => import("../pages/home/Home"));
 const Login = lazy(() => import("../pages/login/Login"));
 const Register = lazy(() => import("../pages/register/Register"));
 const HeroPage = lazy(() => import("../pages/hero/HeroPage"));
@@ -51,7 +52,8 @@ const isValidToken = () => {
 const ProtectedRoute = () => {
   const isLoggedIn = isValidToken();
 
-  return isLoggedIn ? <Outlet /> : <Navigate to="/login" />;
+  // If not logged in, redirect to /heropage
+  return isLoggedIn ? <Outlet /> : <Navigate to="/heropage" />;
 };
 
 export default function AppRoutes() {
@@ -59,17 +61,17 @@ export default function AppRoutes() {
     <Router>
       <Suspense fallback={<Loading />}>
         <Routes>
-          <Route path="/" element={<Navigate to="/heropage" />} />
+          {/* Public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-
-          {/* Rotas protegidas */}
+          <Route path="/heropage" element={<HeroPage />} />{" "}
+          <Route path="/" element={<Navigate to="/home" />} />
           <Route element={<ProtectedRoute />}>
             <Route
-              path="/heropage"
+              path="/home"
               element={
                 <Layout>
-                  <HeroPage />
+                  <Home />
                 </Layout>
               }
             />
@@ -114,7 +116,7 @@ export default function AppRoutes() {
               }
             />
           </Route>
-
+          {/* Catch-all for not found routes */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

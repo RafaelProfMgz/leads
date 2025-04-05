@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -18,22 +17,25 @@ import { MailCheck, AlertCircle, Loader2 } from "lucide-react";
 const sendPasswordResetEmail = async (
   email: string,
 ): Promise<{ success: boolean; message: string }> => {
-  console.log(`Simulating password reset request for: ${email}`);
   await new Promise((resolve) => setTimeout(resolve, 1500));
 
   if (email === "error@example.com") {
     return {
       success: false,
-      message: "Failed to send reset email. Please try again later.",
+      message:
+        "Falha ao enviar e-mail de redefinição. Tente novamente mais tarde.",
     };
   }
   if (!email.includes("@")) {
-    return { success: false, message: "Please enter a valid email address." };
+    return {
+      success: false,
+      message: "Por favor, insira um endereço de e-mail válido.",
+    };
   }
   return {
     success: true,
     message:
-      "If an account exists for this email, a password reset link has been sent.",
+      "Se existir uma conta para este e-mail, um link de redefinição de senha foi enviado.",
   };
 };
 
@@ -62,8 +64,8 @@ export default function ForgotPassword() {
         setError(result.message);
       }
     } catch (err) {
-      console.error("Password reset error:", err);
-      setError("An unexpected error occurred. Please try again.");
+      console.error("Erro de redefinição de senha:", err);
+      setError("Ocorreu um erro inesperado. Tente novamente.");
     } finally {
       setIsLoading(false);
     }
@@ -90,12 +92,8 @@ export default function ForgotPassword() {
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle className="text-2xl font-bold">
-              Forgot Your Password?
+              Esqueceu sua senha?
             </CardTitle>
-            <CardDescription>
-              No problem. Enter your email address below, and we'll send you a
-              link to reset it.
-            </CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -169,14 +167,14 @@ export default function ForgotPassword() {
                     Sending...
                   </>
                 ) : (
-                  "Send Reset Link"
+                  "Enviar link de redefinição"
                 )}
               </Button>
             </form>
           </CardContent>
           <CardFooter className="justify-center">
             <Button variant="link" asChild disabled={isLoading}>
-              <Link to="/login">Back to Login</Link>
+              <Link to="/login">Voltar ao login</Link>
             </Button>
           </CardFooter>
         </Card>

@@ -1,38 +1,63 @@
+// src/components/lead/ShadcnLeadCard.tsx (novo nome ou substitua o antigo)
 import { Lead } from "../../types/Leads";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import { Button } from "@/components/ui/button"; // Shadcn Button
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"; // Shadcn Card
+import { Pencil, Trash2 } from "lucide-react"; // Lucide Icons
 
-interface LeadCardProps {
+interface ShadcnLeadCardProps {
   lead: Lead;
   onEdit: () => void;
   onRemove: () => void;
 }
 
-export default function LeadCard({ lead, onEdit, onRemove }: LeadCardProps) {
+export default function ShadcnLeadCard({
+  lead,
+  onEdit,
+  onRemove,
+}: ShadcnLeadCardProps) {
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md flex flex-col justify-between">
-      <h3 className="text-xl font-semibold mb-2">{lead.name}</h3>
-      <p className="text-sm text-gray-600">{lead.email}</p>
-      {lead.phone && (
-        <p className="text-sm text-gray-600">Telefone: {lead.phone}</p>
-      )}
-      {lead.message && (
-        <p className="text-sm text-gray-600">Mensagem: {lead.message}</p>
-      )}
-      <div className="flex mt-4 space-x-4">
-        <button
-          onClick={onEdit}
-          className="text-blue-500 hover:text-blue-700 transition duration-200"
-        >
-          <FaEdit className="h-5 w-5" />
-        </button>
+    <Card>
+      <CardHeader>
+        <CardTitle>{lead.name}</CardTitle>
+        <CardDescription>{lead.email}</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-2">
+        {lead.phone && (
+          <p className="text-sm text-muted-foreground">
+            Telefone: {lead.phone}
+          </p>
+        )}
+        {lead.message && (
+          <p className="text-sm text-muted-foreground">
+            Mensagem: {lead.message}
+          </p>
+        )}
+      </CardContent>
+      <CardFooter className="flex justify-end space-x-2">
+        {/* Botão Editar */}
+        <Button variant="ghost" size="icon" onClick={onEdit}>
+          <Pencil className="h-4 w-4" />
+          <span className="sr-only">Editar</span> {/* Para acessibilidade */}
+        </Button>
 
-        <button
+        {/* Botão Remover */}
+        <Button
+          variant="ghost"
+          size="icon"
           onClick={onRemove}
-          className="text-red-500 hover:text-red-700 transition duration-200"
+          className="text-destructive hover:text-destructive/90"
         >
-          <FaTrashAlt className="h-5 w-5" />
-        </button>
-      </div>
-    </div>
+          <Trash2 className="h-4 w-4" />
+          <span className="sr-only">Remover</span> {/* Para acessibilidade */}
+        </Button>
+      </CardFooter>
+    </Card>
   );
 }

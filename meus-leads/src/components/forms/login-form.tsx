@@ -5,7 +5,7 @@ import { AxiosError } from "axios";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -19,13 +19,6 @@ export function LoginForm({
   const [error, setError] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      navigate("/home");
-    }
-  }, [navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +40,7 @@ export function LoginForm({
         toast.success("Login realizado com sucesso!");
 
         setTimeout(() => {
-          navigate("/heropage");
+          navigate("/home");
         }, 1500);
       }
     } catch (err: unknown) {
@@ -101,7 +94,7 @@ export function LoginForm({
           <div className="flex items-center">
             <Label htmlFor="password">Password</Label>
             <a
-              href="#"
+              href="/forgotpassword"
               className="ml-auto text-sm underline-offset-4 hover:underline"
             >
               Esqueceu sua senha?

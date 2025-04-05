@@ -6,9 +6,12 @@ import {
   Outlet,
 } from "react-router-dom";
 import { lazy, Suspense } from "react";
-
 import Layout from "../components/layout/Layout";
 import Loading from "../components/Loading";
+import NotFound from "../components/NotFound";
+import ForgotPassword from "@/pages/forgot-password/ForgotPassword";
+
+import { jwtDecode } from "jwt-decode";
 
 const Home = lazy(() => import("../pages/home/Home"));
 const Login = lazy(() => import("../pages/login/Login"));
@@ -21,8 +24,9 @@ const Documentation = lazy(
   () => import("../pages/documentation/Documentation"),
 );
 const Report = lazy(() => import("../pages/Report/Report"));
-import NotFound from "../components/NotFound";
-import { jwtDecode } from "jwt-decode";
+const ForgotPassword = lazy(
+  () => import("../pages/forgot-password/ForgotPassword"),
+);
 
 const isValidToken = () => {
   const token = localStorage.getItem("token");
@@ -64,7 +68,8 @@ export default function AppRoutes() {
           {/* Public routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/heropage" element={<HeroPage />} />{" "}
+          <Route path="/heropage" element={<HeroPage />} />
+          <Route path="/forgotpassword" element={<ForgotPassword />} />
           <Route path="/" element={<Navigate to="/home" />} />
           <Route element={<ProtectedRoute />}>
             <Route

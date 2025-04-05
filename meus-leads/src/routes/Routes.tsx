@@ -9,8 +9,6 @@ import { lazy, Suspense } from "react";
 import Layout from "../components/layout/Layout";
 import Loading from "../components/Loading";
 import NotFound from "../components/NotFound";
-import ForgotPassword from "@/pages/forgot-password/ForgotPassword";
-
 import { jwtDecode } from "jwt-decode";
 
 const Home = lazy(() => import("../pages/home/Home"));

@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import StarrySkyBackground from "@/components/starry-sky-background"; // 1. Importe o novo componente
 
 export default function Home() {
   const containerVariants = {
@@ -26,11 +27,14 @@ export default function Home() {
     },
   };
 
+  // As formas de fundo originais (blur) podem ser removidas ou mantidas
+  // Se mantidas, podem precisar de ajuste de cor/opacidade para o céu noturno
+  /*
   const shapeVariants = {
     initial: { scale: 0.8, opacity: 0 },
     animate: {
       scale: [1, 1.1, 1],
-      opacity: [0.1, 0.15, 0.1],
+      opacity: [0.1, 0.15, 0.1], // Talvez ajustar opacidade
       rotate: [0, 10, -5, 0],
       transition: {
         duration: 15,
@@ -40,51 +44,59 @@ export default function Home() {
       },
     },
   };
+  */
 
   return (
-    <section className="relative flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-100 via-purple-100 to-pink-100 dark:from-slate-900 dark:via-purple-950 dark:to-indigo-950 overflow-hidden p-4">
+    // 2. Atualize o background da section para um céu noturno
+    //    Remova o gradiente claro e use um escuro. Remova as classes dark: pois agora será sempre escuro.
+    <section className="relative flex items-center justify-center min-h-screen bg-gradient-to-br from-black via-indigo-950 to-slate-900 overflow-hidden p-4">
+      {/* 3. Adicione o componente de fundo estrelado */}
+      <StarrySkyBackground numStars={200} numShootingStars={10} />
+
+      {/* Formas de fundo opcionais - remova ou ajuste cores/opacidade */}
+      {/*
       <motion.div
-        className="absolute top-[-50px] left-[-50px] w-72 h-72 bg-purple-300 dark:bg-purple-700 rounded-full filter blur-3xl opacity-30"
+        className="absolute top-[-50px] left-[-50px] w-72 h-72 bg-purple-700 rounded-full filter blur-3xl opacity-20" // Cor/opacidade ajustada
         variants={shapeVariants}
         initial="initial"
         animate="animate"
-        style={{ mixBlendMode: "multiply" }}
+        // style={{ mixBlendMode: "multiply" }} // mixBlendMode pode não funcionar bem em fundo escuro
       />
 
       <motion.div
-        className="absolute bottom-[-80px] right-[-80px] w-96 h-96 bg-pink-300 dark:bg-pink-700 rounded-full filter blur-3xl opacity-30"
+        className="absolute bottom-[-80px] right-[-80px] w-96 h-96 bg-pink-700 rounded-full filter blur-3xl opacity-20" // Cor/opacidade ajustada
         variants={shapeVariants}
         initial="initial"
         animate={{
-          scale: [1, 1.1, 1],
-          opacity: [0.1, 0.15, 0.1],
-          rotate: [0, 10, -5, 0],
-          transition: {
-            duration: 20,
+          ...shapeVariants.animate,
+           transition: {
+            ...shapeVariants.animate.transition,
+            duration: 20, // Mantém a transição customizada
             delay: 2,
-            ease: "easeInOut",
-            repeat: Infinity,
-            repeatType: "mirror" as const,
           },
         }}
-        style={{ mixBlendMode: "multiply" }}
+       // style={{ mixBlendMode: "multiply" }}
       />
+      */}
 
+      {/* Conteúdo principal - Certifique-se que tem z-index maior (z-10 já está ok) */}
       <motion.div
-        className="container mx-auto px-4 text-center z-10"
+        className="container mx-auto px-4 text-center z-10" // z-10 garante que fique sobre o fundo
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
         <motion.h1
-          className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 text-gray-900 dark:text-gray-100"
+          // 4. Ajuste a cor do texto para contrastar com o fundo escuro
+          className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 text-gray-100" // Mudou para text-gray-100
           variants={itemVariants}
         >
           Bem-vindo ao <span className="text-primary">LEADVITRUS</span>
         </motion.h1>
 
         <motion.p
-          className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto"
+          // 4. Ajuste a cor do texto para contrastar com o fundo escuro
+          className="text-lg sm:text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto" // Mudou para text-gray-300
           variants={itemVariants}
         >
           Gerencie seus leads de forma eficiente, visualize dados importantes e
